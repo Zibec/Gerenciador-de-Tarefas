@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*") // Permite que qualquer origem acesse a API
 @RestController
 @RequestMapping("/tarefas")
 public class TarefaController {
