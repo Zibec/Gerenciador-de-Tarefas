@@ -24,13 +24,28 @@ async function buscarTarefas() {
     tarefas.forEach(tarefa => {
         const li = document.createElement('li');
 
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Deletar';
+        deleteButton.classList.add('delete-btn');
+
         // Adiciona a classe 'concluida' se a tarefa estiver concluída
         if (tarefa.concluida) {
             li.classList.add('concluida');
         }
 
+
+        deleteButton.addEventListener('click', () => {
+
+            const querDeletar = confirm("Quer mesmo apagar essa tarefa? ")
+
+            if(querDeletar) {
+                deletarTarefa(tarefa.id); // Chama a função para deletar, passando o ID da tarefa
+            }
+        });
+
         concluida = tarefa.concluida ? 'Sim' : 'Não';
         li.textContent = `${tarefa.descricao} - [Prioridade: ${tarefa.prioridade}] - [Concluído? ${concluida}]`
+        li.appendChild(deleteButton);
 
         // Adiciona o novo item <li> dentro da nossa <ul>
         taskList.appendChild(li);
@@ -74,6 +89,18 @@ async function criarTarefa(event) {
     endedInput.value = '';
 
     // Busca a lista de tarefas novamente para mostrar a nova tarefa
+    buscarTarefas();
+}
+
+// Função para deletar uma tarefa
+async function deletarTarefa(id) {
+    // Faz a requisição DELETE para a nossa API, usando o ID específico
+    await fetch(`${API_URL}/${id}`, {
+        method: 'DELETE',
+    });
+
+    // Depois de deletar, chama a função buscarTarefas para
+    // atualizar a lista na tela e remover o item deletado.
     buscarTarefas();
 }
 
