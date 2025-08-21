@@ -1,0 +1,128 @@
+/* Reset básico e configurações globais */
+body {
+    font-family: sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Estilizando o contêiner principal para centralizar */
+main {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 600px; /* Largura máxima para não ficar muito largo em telas grandes */
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+/* Estilizando a seção do formulário com Flexbox EM COLUNA */
+#new-task-form {
+    display: flex;
+    flex-direction: column; /* Organiza os itens um embaixo do outro */
+    gap: 15px; /* Define o espaço vertical entre cada item */
+}
+
+/* Estilo para o campo de texto principal */
+#task-input {
+    /* O flex-grow não é mais necessário aqui */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+/* Estilo compartilhado para os menus de seleção (continua igual) */
+.form-select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: white;
+}
+
+/* O botão agora ficará com 100% de largura por padrão */
+#button-submit {
+    padding: 12px 25px;      /* Aumentei um pouco o padding lateral para um visual melhor */
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    align-self: flex-end;    /* <-- A MÁGICA ACONTECE AQUI */
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilo para o botão de deletar */
+.delete-btn {
+    padding: 5px 10px;
+    background-color: #dc3545; /* Vermelho */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-left: 15px; /* Adiciona um espaço entre o texto e o botão */
+}
+
+.delete-btn:hover {
+    background-color: #c82333; /* Vermelho mais escuro */
+}
+
+/* Estilizando cada item da lista (<li>) como um card */
+#task-list li {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-left: 5px solid #007bff; /* Uma barra colorida à esquerda */
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between; /* Alinha o texto à esquerda e outros itens (futuros botões) à direita */
+    align-items: center;
+    transition: all 0.2s ease-in-out; /* Animação suave */
+}
+
+/* Estilo específico para a tarefa concluída */
+#task-list li.concluida {
+    border-left-color: #6c757d; /* Um cinza para indicar que está concluída */
+    background-color: #f8f9fa; /* Um fundo levemente acinzentado */
+}
+
+/* Opcional: Adiciona o efeito de riscado no texto quando a tarefa está concluída */
+#task-list li.concluida {
+    text-decoration: line-through;
+    color: #6c757d;
+}
+
+#task-list li:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra ao passar o mouse */
+    transform: scale(1.02); /* Efeito de leve crescimento */
+}
+
+/* Estilizando a lista de tarefas */
+#task-list {
+    list-style: none; /* Remove as bolinhas da lista */
+    padding: 0;
+    margin-top: 20px;
+}
+
+footer {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #888;
+}
