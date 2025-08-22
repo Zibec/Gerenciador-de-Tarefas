@@ -19,6 +19,7 @@ export default function Home() {
         setTarefas(data);
     }
 
+    //Serve pra chamar 1 vez só e não fica em um loop
     useEffect(() => {
         buscarTarefas();
     }, []);
@@ -44,7 +45,7 @@ export default function Home() {
 
         // Limpa os campos e busca as tarefas novamente
         setNovaTarefaDescricao('');
-        setNovaTarefaPrioridade('MEDIA');
+        setNovaTarefaPrioridade('BAIXA');
         setNovaTarefaConcluida(false);
         buscarTarefas();
     }
