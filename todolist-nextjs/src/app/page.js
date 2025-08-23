@@ -15,7 +15,6 @@ export default function Home() {
     async function buscarTarefas() {
         const response = await fetch(API_URL);
         const data = await response.json();
-        data.reverse();
         setTarefas(data);
     }
 
@@ -47,6 +46,37 @@ export default function Home() {
         setNovaTarefaDescricao('');
         setNovaTarefaPrioridade('BAIXA');
         setNovaTarefaConcluida(false);
+        buscarTarefas();
+    }
+
+    async function handleDeletarTarefa(id){
+        const querDeletar = confirm("Tem certeza que tu quer deletar isso?")
+
+        if(querDeletar){
+            await fetch(`${API_URL}/${id}`, {
+                method: 'DELETE',
+        });
+
+        buscarTarefas();
+        }
+    }
+
+    async function handleAtualizarStatus(id){
+
+        //Objeto do tipo tarefa
+        const tarefaParaAtualizar = tarefas.find(t => t.id === id);
+
+        const tarefaAtualizada = {
+            ...tarefaParaAtualizar,
+            concluida: !tarefaParaAtualizar.concluida
+        }
+
+        await fetch(`${API_URL}/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(tarefaAtualizada),
+        });
+
         buscarTarefas();
     }
 
@@ -100,7 +130,21 @@ export default function Home() {
                         tarefas.map(tarefa => {
                             return (
                                 <li key={tarefa.id} className={tarefa.concluida ? 'concluida' : ''}>
-                                    {tarefa.descricao} - [Prioridade: {tarefa.prioridade}] - [Concluída: {tarefa.concluida ? "Sim" : "Não"}]
+                                    <span className="task-text">
+                                    {`${tarefa.descricao} - 
+                                    [Prioridade: ${tarefa.prioridade}] - 
+                                    [Concluído? ${tarefa.concluida ? 'Sim' : 'Não'}]`}
+                                    </span>
+
+                                    <div className="task-actions">
+                                        <button className="change-btn" onClick={() => handleAtualizarStatus(tarefa.id)}>
+                                            Mudar
+                                        </button>
+                                        <button className="delete-btn" onClick={() => handleDeletarTarefa(tarefa.id)}>
+                                            Deletar
+                                        </button>
+                                    </div>
+
                                 </li>
                             );
                         })

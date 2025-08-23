@@ -1,5 +1,6 @@
-package br.com.todolist.gerenciadortarefas;
+package br.com.todolist.gerenciadortarefas.repository;
 
+import br.com.todolist.gerenciadortarefas.entity.Tarefa;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TarefaRepository extends JpaRepository<Tarefa, Long> {

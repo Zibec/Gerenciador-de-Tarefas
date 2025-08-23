@@ -1,55 +1,56 @@
-package br.com.todolist.gerenciadortarefas;
+package br.com.todolist.gerenciadortarefas.controller;
 
+import br.com.todolist.gerenciadortarefas.entity.Tarefa;
+import br.com.todolist.gerenciadortarefas.service.TarefaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
-@CrossOrigin(origins = "*") // Permite que qualquer origem acesse a API
 @RestController
 @RequestMapping("/tarefas")
+@CrossOrigin(origins = "*")
 public class TarefaController {
 
     @Autowired
-    private TarefaRepository tarefaRepository;
+    private TarefaService tarefaService; // Agora depende do Service!
 
     @PostMapping
     public Tarefa criar(@RequestBody Tarefa tarefa) {
-        return this.tarefaRepository.save(tarefa);
+        return tarefaService.criarTarefa(tarefa);
     }
 
     @GetMapping
     public List<Tarefa> listar() {
-        return this.tarefaRepository.findAll();
+        List<Tarefa> tarefas = tarefaService.listarTodas();
+        Collections.reverse(tarefas); // Mantemos a lógica de reverter aqui na apresentação
+        return tarefas;
     }
 
     @GetMapping("/{id}")
-    public Tarefa buscarPorId(@PathVariable Long id) {
-        return this.tarefaRepository.findById(id)
-                .orElse(null); // Se encontrar a tarefa, a retorna. Se não, retorna null.
+    public ResponseEntity<Tarefa> buscarPorId(@PathVariable Long id) {
+        return tarefaService.buscarPorId(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
-
-    // Dentro da classe TarefaController
 
     @PutMapping("/{id}")
     public ResponseEntity<Tarefa> atualizar(@PathVariable Long id, @RequestBody Tarefa tarefaAtualizada) {
-        return this.tarefaRepository.findById(id)
+        return tarefaService.buscarPorId(id)
                 .map(tarefaExistente -> {
                     tarefaExistente.setDescricao(tarefaAtualizada.getDescricao());
                     tarefaExistente.setPrioridade(tarefaAtualizada.getPrioridade());
                     tarefaExistente.setConcluida(tarefaAtualizada.isConcluida());
-
-                    Tarefa tarefaSalva = this.tarefaRepository.save(tarefaExistente);
-
-                    return ResponseEntity.ok(tarefaSalva);
+                    return ResponseEntity.ok(tarefaService.atualizarTarefa(tarefaExistente));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        this.tarefaRepository.deleteById(id);
+        tarefaService.deletarTarefa(id);
         return ResponseEntity.noContent().build();
     }
 }
