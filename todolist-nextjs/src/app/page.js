@@ -1,157 +1,29 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-
-// Não precisamos mais do import de styles.module.css
+import { useTasks } from '../hooks/useTasks'; // 1. Importa nossa caixa de ferramentas
+import TaskForm from '../components/TaskForm'; // (Supondo que você já tenha o TaskForm separado)
+import TaskList from '../components/TaskList'; // (E a TaskList também)
 
 export default function Home() {
-    const [tarefas, setTarefas] = useState([]);
-    const [novaTarefaDescricao, setNovaTarefaDescricao] = useState('');
-    const [novaTarefaPrioridade, setNovaTarefaPrioridade] = useState('MEDIA'); // Valor inicial
-    const [novaTarefaConcluida, setNovaTarefaConcluida] = useState(false); // Valor inicial
+    // 2. Pega tudo que precisamos da nossa caixa de ferramentas em uma única linha!
+    const { tarefas, criarTarefa, deletarTarefa, atualizarStatus } = useTasks();
 
-    const API_URL = 'http://localhost:8080/tarefas';
-
-    async function buscarTarefas() {
-        const response = await fetch(API_URL);
-        const data = await response.json();
-        setTarefas(data);
-    }
-
-    //Serve pra chamar 1 vez só e não fica em um loop
-    useEffect(() => {
-        buscarTarefas();
-    }, []);
-
-    async function handleCriarTarefa(event) {
-        event.preventDefault();
-        if (!novaTarefaDescricao.trim()) {
-            alert('A descrição não pode ser vazia.');
-            return;
-        }
-
-        const novaTarefa = {
-            descricao: novaTarefaDescricao.trim(),
-            prioridade: novaTarefaPrioridade,
-            concluida: novaTarefaConcluida,
-        };
-
-        await fetch(API_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(novaTarefa),
-        });
-
-        // Limpa os campos e busca as tarefas novamente
-        setNovaTarefaDescricao('');
-        setNovaTarefaPrioridade('BAIXA');
-        setNovaTarefaConcluida(false);
-        buscarTarefas();
-    }
-
-    async function handleDeletarTarefa(id){
-        const querDeletar = confirm("Tem certeza que tu quer deletar isso?")
-
-        if(querDeletar){
-            await fetch(`${API_URL}/${id}`, {
-                method: 'DELETE',
-        });
-
-        buscarTarefas();
-        }
-    }
-
-    async function handleAtualizarStatus(id){
-
-        //Objeto do tipo tarefa
-        const tarefaParaAtualizar = tarefas.find(t => t.id === id);
-
-        const tarefaAtualizada = {
-            ...tarefaParaAtualizar,
-            concluida: !tarefaParaAtualizar.concluida
-        }
-
-        await fetch(`${API_URL}/${id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(tarefaAtualizada),
-        });
-
-        buscarTarefas();
-    }
-
-    // JSX com os IDs e Classes que o seu CSS espera
+    // 3. A página agora só orquestra os componentes visuais
     return (
         <main>
             <header>
                 <h1>Minha Lista de Tarefas (Next.js)</h1>
             </header>
 
-            <section className="input-section">
-                <form id="new-task-form" onSubmit={handleCriarTarefa}>
-                    <input
-                        id="task-input" // Usando ID
-                        type="text"
-                        value={novaTarefaDescricao}
-                        onChange={(e) => setNovaTarefaDescricao(e.target.value)}
-                        placeholder="Digite uma nova tarefa..."
-                        required
-                    />
-                    <select
-                        id="priority-input" // Usando ID
-                        className="form-select" // Usando Classe
-                        value={novaTarefaPrioridade}
-                        onChange={(e) => setNovaTarefaPrioridade(e.target.value)}
-                    >
-                        <option value="ALTA">Alta</option>
-                        <option value="MEDIA">Média</option>
-                        <option value="BAIXA">Baixa</option>
-                    </select>
-                    {/* Adicionando o campo de concluído que faltava na versão React */}
-                    <select
-                        id="conclusion-input" // Usando ID
-                        className="form-select" // Usando Classe
-                        value={novaTarefaConcluida}
-                        onChange={(e) => setNovaTarefaConcluida(e.target.value === 'true')}
-                    >
-                        <option value="false">Não</option>
-                        <option value="true">Sim</option>
-                    </select>
+            {/* O formulário agora só precisa chamar a função criarTarefa do nosso hook */}
+            <TaskForm onTaskCreated={criarTarefa} />
 
-                    <button id="button-submit" type="submit">Adicionar</button>
-                </form>
-            </section>
-
-            <section className="task-list-section">
-                <h2>Tarefas</h2>
-                <ul id="task-list">
-
-                    {
-                        tarefas.map(tarefa => {
-                            return (
-                                <li key={tarefa.id} className={tarefa.concluida ? 'concluida' : ''}>
-                                    <span className="task-text">
-                                    {`${tarefa.descricao} - 
-                                    [Prioridade: ${tarefa.prioridade}] - 
-                                    [Concluído? ${tarefa.concluida ? 'Sim' : 'Não'}]`}
-                                    </span>
-
-                                    <div className="task-actions">
-                                        <button className="change-btn" onClick={() => handleAtualizarStatus(tarefa.id)}>
-                                            Mudar
-                                        </button>
-                                        <button className="delete-btn" onClick={() => handleDeletarTarefa(tarefa.id)}>
-                                            Deletar
-                                        </button>
-                                    </div>
-
-                                </li>
-                            );
-                        })
-                    }
-                </ul>
-
-            </section>
+            {/* A lista recebe os dados e as funções de deletar/atualizar do nosso hook */}
+            <TaskList
+                tasks={tarefas}
+                onDeleteTask={deletarTarefa}
+                onUpdateStatus={atualizarStatus}
+            />
         </main>
     );
 }
