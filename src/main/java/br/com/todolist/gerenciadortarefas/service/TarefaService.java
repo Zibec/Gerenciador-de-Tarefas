@@ -19,7 +19,7 @@ public class TarefaService {
     }
 
     public List<Tarefa> listarTodas() {
-        return tarefaRepository.findAll();
+        return tarefaRepository.findAllByOrderByIdDesc();
     }
 
     public Optional<Tarefa> buscarPorId(Long id) {

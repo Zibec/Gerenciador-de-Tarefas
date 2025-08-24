@@ -24,9 +24,7 @@ public class TarefaController {
 
     @GetMapping
     public List<Tarefa> listar() {
-        List<Tarefa> tarefas = tarefaService.listarTodas();
-        Collections.reverse(tarefas); // Mantemos a lógica de reverter aqui na apresentação
-        return tarefas;
+        return tarefaService.listarTodas();
     }
 
     @GetMapping("/{id}")
