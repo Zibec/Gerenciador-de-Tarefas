@@ -1,6 +1,6 @@
 'use client';
 
-import { useTasks } from '../hooks/useTasks'; // 1. Importa nossa caixa de ferramentas
+import { useTasks } from '@/hooks/useTasks'; // 1. Importa nossa caixa de ferramentas
 import TaskForm from '../components/TaskForm'; // (Supondo que você já tenha o TaskForm separado)
 import TaskList from '../components/TaskList'; // (E a TaskList também)
 
