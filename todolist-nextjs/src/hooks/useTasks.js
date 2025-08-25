@@ -11,7 +11,7 @@ export function useTasks() {
     async function buscarTarefas() {
         const response = await fetch(API_URL);
         const data = await response.json();
-        setTarefas(data); // Já aplicamos o reverse aqui
+        setTarefas(data);
     }
 
     // Busca as tarefas na primeira vez que o hook é usado
@@ -38,6 +38,7 @@ export function useTasks() {
 
     async function atualizarStatus(id) {
         const tarefaParaAtualizar = tarefas.find(t => t.id === id);
+
         if (!tarefaParaAtualizar) return;
 
         const tarefaAtualizada = {

@@ -15,7 +15,6 @@ export default function TaskList({ tasks, onDeleteTask, onUpdateStatus }) {
             <span className="task-text">
               {`${tarefa.descricao} - [Prioridade: ${tarefa.prioridade}]`}
             </span>
-
                         <div className="task-actions">
                             <button className="change-btn" onClick={() => onUpdateStatus(tarefa.id)}>
                                 Mudar
