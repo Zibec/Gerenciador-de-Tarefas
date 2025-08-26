@@ -1,11 +1,9 @@
 package br.com.todolist.gerenciadortarefas.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
+import jakarta.persistence.*;
 import java.util.Objects;
+import java.util.List;
+import java.util.ArrayList;
 
 @Entity
 public class Tarefa {
@@ -16,6 +14,9 @@ public class Tarefa {
     private String descricao;
     private String prioridade;
     private boolean concluida;
+
+    @OneToMany(mappedBy = "tarefa", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Subtarefa> subtarefas = new ArrayList<>();
 
     // Construtor padrão exigido pelo JPA
     public Tarefa() {
