@@ -1,6 +1,7 @@
 package br.com.todolist.gerenciadortarefas.entity;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Objects;
 @Entity
@@ -43,6 +44,7 @@ public class SubTarefa {
         this.concluida = concluida;
     }
 
+    @JsonIgnore
     public Tarefa getTarefa() {
         return tarefa;
     }

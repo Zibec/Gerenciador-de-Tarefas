@@ -9,17 +9,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/tarefas")
+@RequestMapping("/subtarefas")
 @CrossOrigin(origins = "*")
 public class SubTarefaController {
 
     @Autowired
     private SubTarefaService subTarefaService; // Agora depende do Service!
 
-    @PostMapping
-    public SubTarefa criarSub(@RequestBody SubTarefa subTarefa) {
-        return subTarefaService.criarSubTarefa(subTarefa);
-    }
+    //Subtarefas não precisa de um metodo post
 
     @GetMapping
     public List<SubTarefa> listarSub() {

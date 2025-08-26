@@ -1,5 +1,6 @@
 package br.com.todolist.gerenciadortarefas.controller;
 
+import br.com.todolist.gerenciadortarefas.entity.SubTarefa;
 import br.com.todolist.gerenciadortarefas.entity.Tarefa;
 import br.com.todolist.gerenciadortarefas.service.TarefaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,5 +51,16 @@ public class TarefaController {
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
         tarefaService.deletarTarefa(id);
         return ResponseEntity.noContent().build();
+    }
+
+    //Adicionar uma subTarefa
+    @PostMapping("/{tarefaId}/subtarefas")
+    public ResponseEntity<SubTarefa> criarSubTarefaParaTarefa(@PathVariable Long tarefaId, @RequestBody SubTarefa subTarefa) {
+        try{
+            SubTarefa novaSubTarefa = tarefaService.adicionarSubTarefa(tarefaId, subTarefa);
+            return ResponseEntity.ok(novaSubTarefa);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

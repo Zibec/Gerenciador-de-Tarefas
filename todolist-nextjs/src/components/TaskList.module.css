@@ -71,3 +71,19 @@
     text-decoration: line-through;
     color: #6c757d;
 }
+
+.expandBtn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* A MÁGICA DA ANIMAÇÃO */
+    transition: transform 0.2s ease-in-out;
+}
+/* Estilo para a seta QUANDO a tarefa está expandida */
+.expandBtn.expanded svg {
+    transform: rotate(90deg); /* Gira o ícone em 90 graus */
+}
