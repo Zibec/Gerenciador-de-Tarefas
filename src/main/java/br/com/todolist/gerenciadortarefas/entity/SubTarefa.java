@@ -11,9 +11,9 @@ public class SubTarefa {
     private Long id;
     private String descricao;
     private boolean concluida;
-    
-    @ManyToOne
-    @JoinColumn(name = "tarefa_id", nullable = false)
+
+    @ManyToOne(fetch = FetchType.LAZY) // MUITAS subtarefas para UMA tarefa
+    @JoinColumn(name = "tarefa_id", nullable = false) // Define a coluna da chave estrangeira
     private Tarefa tarefa;
 
     public SubTarefa() {
@@ -41,5 +41,13 @@ public class SubTarefa {
 
     public void setConcluida(boolean concluida) {
         this.concluida = concluida;
+    }
+
+    public Tarefa getTarefa() {
+        return tarefa;
+    }
+
+    public void setTarefa(Tarefa tarefa) {
+        this.tarefa = tarefa;
     }
 }

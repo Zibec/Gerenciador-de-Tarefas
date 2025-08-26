@@ -16,7 +16,7 @@ public class Tarefa {
     private boolean concluida;
 
     @OneToMany(mappedBy = "tarefa", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Subtarefa> subtarefas = new ArrayList<>();
+    private List<SubTarefa> subtarefas = new ArrayList<>();
 
     // Construtor padrão exigido pelo JPA
     public Tarefa() {

@@ -33,4 +33,8 @@ public class SubTarefaService {
     public void deletarSubTarefa(Long id) {
         subTarefaRepository.deleteById(id);
     }
+
+    public List<SubTarefa> listarSubTarefasDeUmaTarefa(Long tarefaId) {
+        return subTarefaRepository.findByTarefaId(tarefaId);
+    }
 }

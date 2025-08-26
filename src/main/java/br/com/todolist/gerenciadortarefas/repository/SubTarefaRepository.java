@@ -7,4 +7,7 @@ import java.util.List;
 
 public interface SubTarefaRepository extends JpaRepository<SubTarefa, Long> {
         List<SubTarefa> findAllByOrderByIdDesc();
+
+        //Pra achar a subtarefa pelo id da tarefa principal
+        List<SubTarefa> findByTarefaId(Long tarefaId);
 }
