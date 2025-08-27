@@ -7,7 +7,7 @@
 
     export default function Home() {
         // 2. Pega tudo que precisamos da nossa caixa de ferramentas em uma única linha!
-        const { tarefas, criarTarefa, deletarTarefa, atualizarStatus } = useTasks();
+        const { tarefas, criarTarefa, deletarTarefa, atualizarStatus, buscarTarefas, deletarSubtarefa } = useTasks();
 
         // 3. A página agora só orquestra os componentes visuais
         return (
@@ -27,6 +27,8 @@
                     tasks={tarefas}
                     onDeleteTask={deletarTarefa}
                     onUpdateStatus={atualizarStatus}
+                    onSubtaskCreated={buscarTarefas}
+                    onDeleteSubtask={deletarSubtarefa}
                 />
             </main>
         );

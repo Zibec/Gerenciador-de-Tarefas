@@ -54,6 +54,17 @@ export function useTasks() {
         buscarTarefas(); // Atualiza a lista
     }
 
+    async function deletarSubtarefa(subtarefaId){
+        const querDeletar = confirm("Tem certeza que quer deletar essa subtarefa?");
+
+        if(querDeletar){
+            await fetch(`http://localhost:8080/subtarefas/${subtarefaId}`, {
+                method: 'DELETE'
+            });
+            buscarTarefas();
+        }
+    }
+
     // O hook "exporta" o estado e as funções para quem o usar
-    return { tarefas, criarTarefa, deletarTarefa, atualizarStatus };
+    return { tarefas, criarTarefa, deletarTarefa, atualizarStatus, buscarTarefas, deletarSubtarefa };
 }
