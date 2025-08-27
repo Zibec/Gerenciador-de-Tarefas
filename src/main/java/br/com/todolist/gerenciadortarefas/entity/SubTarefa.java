@@ -2,6 +2,7 @@ package br.com.todolist.gerenciadortarefas.entity;
 
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import java.util.Objects;
 @Entity
@@ -15,6 +16,7 @@ public class SubTarefa {
 
     @ManyToOne(fetch = FetchType.LAZY) // MUITAS subtarefas para UMA tarefa
     @JoinColumn(name = "tarefa_id", nullable = false) // Define a coluna da chave estrangeira
+    @JsonBackReference
     private Tarefa tarefa;
 
     public SubTarefa() {

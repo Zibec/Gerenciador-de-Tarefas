@@ -3,23 +3,18 @@ import styles from './TaskList.module.css';
 
 import {useState} from "react";
 
-// Este componente recebe 3 "props":
-// 1. tasks: O array com as tarefas a serem exibidas.
-// 2. onDeleteTask: A função para chamar quando um botão de deletar for clicado.
-// 3. onUpdateStatus: A função para chamar quando o status de uma tarefa for alterado.
 export default function TaskList({ tasks, onDeleteTask, onUpdateStatus }) {
     const [expandedTaskId, setExpandedTaskId] = useState(null);
 
     return (
         <section className="task-list-section">
             <h2>Tarefas</h2>
-            {/* 2. Usa as classes do módulo */}
             <ul className={styles.taskList}>
                 {tasks.map(tarefa => (
-                    // Combina a classe base com a classe condicional
                     <li
                         key={tarefa.id}
                         className={`${styles.taskItem} 
+                        ${expandedTaskId === tarefa.id ? styles.expandedItem : ''}
                         ${tarefa.concluida ? styles.concluida : ''} 
                         ${styles['prioridade' + tarefa.prioridade.charAt(0) + 
                         tarefa.prioridade.slice(1).toLowerCase()]}`}
@@ -48,6 +43,29 @@ export default function TaskList({ tasks, onDeleteTask, onUpdateStatus }) {
                                 Deletar
                             </button>
                         </div>
+
+                        {expandedTaskId === tarefa.id && (
+                            <div className={styles.taskDetails}>
+                                <h4>Subtarefas:</h4>
+
+                                {/* Lista de subtarefas existentes */}
+                                <ul className={styles.subtaskList}>
+                                    {tarefa.subtarefas.map(subtarefa => (
+                                        <li key={subtarefa.id} className={styles.subtaskItem}>
+                                            <span>{subtarefa.descricao}</span>
+                                            {/* Aqui no futuro podem ter botões para a subtarefa */}
+                                        </li>
+                                    ))}
+                                </ul>
+
+                                {/* Formulário para adicionar nova subtarefa */}
+                                {/* (Por enquanto, um placeholder. Depois criaremos um componente para isso) */}
+                                <form className={styles.subtaskForm}>
+                                    <input type="text" placeholder="Adicionar nova subtarefa..." />
+                                    <button type="submit">+</button>
+                                </form>
+                            </div>
+                        )}
                     </li>
                 ))}
             </ul>

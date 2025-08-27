@@ -14,7 +14,7 @@
     margin-bottom: 10px;
     border-radius: 4px;
     display: flex;
-    justify-content: space-between;
+    gap:15px;
     align-items: center;
     transition: all 0.2s ease-in-out;
 }
@@ -29,6 +29,9 @@
     gap: 10px;
 }
 
+.taskText{
+    flex-grow: 1;
+}
 
 /* Estilo para o botão de deletar */
 .deleteBtn {
@@ -86,4 +89,28 @@
 /* Estilo para a seta QUANDO a tarefa está expandida */
 .expandBtn.expanded svg {
     transform: rotate(90deg); /* Gira o ícone em 90 graus */
+}
+
+/* Estilos para a seção de detalhes que se expande */
+.taskDetails {
+    /* Garante que ocupe a linha inteira abaixo do header */
+    flex-basis: 100%;
+    padding-left: 40px; /* Alinha com o início do texto da tarefa */
+    margin-top: 15px;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+}
+
+/* Deixa o <li> principal mais flexível para o conteúdo expandido */
+.taskItem.expandedItem {
+    flex-wrap: wrap; /* Permite que o conteúdo quebre para a linha de baixo */
+}
+
+.subtaskList {
+    list-style: circle;
+    padding-left: 20px;
+}
+
+.subtaskItem {
+    padding: 5px 0;
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.util.Objects;
 import java.util.List;
 import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Tarefa {
@@ -16,6 +17,7 @@ public class Tarefa {
     private boolean concluida;
 
     @OneToMany(mappedBy = "tarefa", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<SubTarefa> subtarefas = new ArrayList<>();
 
     // Construtor padrão exigido pelo JPA
