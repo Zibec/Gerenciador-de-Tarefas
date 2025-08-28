@@ -37,4 +37,18 @@ public class SubTarefaService {
     public List<SubTarefa> listarSubTarefasDeUmaTarefa(Long tarefaId) {
         return subTarefaRepository.findByTarefaId(tarefaId);
     }
+
+    public Optional<SubTarefa> atualizarStatusSubtarefa(Long id){
+        Optional<SubTarefa> subTarefaOpt = subTarefaRepository.findById(id);
+
+        if(subTarefaOpt.isEmpty()){
+            return Optional.empty();
+        }
+
+        SubTarefa subTarefa = subTarefaOpt.get();
+        subTarefa.setConcluida(!subTarefa.isConcluida());
+
+        //Salva e retorna dentro de um Optional
+        return Optional.of(subTarefaRepository.save(subTarefa));
+    }
 }

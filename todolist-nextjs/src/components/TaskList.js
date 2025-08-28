@@ -3,7 +3,7 @@ import styles from './TaskList.module.css';
 
 import {useState} from "react";
 
-export default function TaskList({ tasks, onDeleteTask, onUpdateStatus, onSubtaskCreated, onDeleteSubtask}) {
+export default function TaskList({ tasks, onDeleteTask, onUpdateStatus, onSubtaskCreated, onDeleteSubtask, onUpdateStatusSubtask}) {
     const [expandedTaskId, setExpandedTaskId] = useState(null);
     const [subtaskText, setSubtaskText] = useState('');
 
@@ -76,11 +76,17 @@ export default function TaskList({ tasks, onDeleteTask, onUpdateStatus, onSubtas
                                 {/* Lista de subtarefas existentes */}
                                 <ul className={styles.subtaskList}>
                                     {tarefa.subtarefas.map(subtarefa => (
-                                        <li key={subtarefa.id} className={styles.subtaskItem}>
+                                        <li key={subtarefa.id} className={`${styles.subtaskItem} ${subtarefa.concluida ? styles.concluida : ''}`}>
 
                                             <div className={styles.taskActions}>
                                                 <span className={styles.taskText}>{subtarefa.descricao}</span>
 
+                                                <input
+                                                    type="checkbox"
+                                                    checked={subtarefa.concluida} // Controla se a caixa está marcada
+                                                    className={styles.subtaskCheckbox}
+                                                    onChange={() => onUpdateStatusSubtask(subtarefa.id)} // Chama a função ao clicar
+                                                />
                                                 {/* Botão com Ícone de Lixeira */}
                                                 <button
                                                     className={styles.iconBtn}

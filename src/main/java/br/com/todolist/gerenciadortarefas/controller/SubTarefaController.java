@@ -46,4 +46,9 @@ public class SubTarefaController {
         subTarefaService.deletarSubTarefa(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id}/concluir")
+    public ResponseEntity<SubTarefa> mudarStatusConcluir(@PathVariable Long id) {
+        return subTarefaService.atualizarStatusSubtarefa(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
 }

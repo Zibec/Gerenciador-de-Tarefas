@@ -65,6 +65,12 @@ export function useTasks() {
         }
     }
 
+    async function atualizarStatusSubtarefa(subtarefaId){
+        await fetch(`http://localhost:8080/subtarefas/${subtarefaId}/concluir`, {
+            method: 'PATCH',
+        });
+        buscarTarefas();
+    }
     // O hook "exporta" o estado e as funções para quem o usar
-    return { tarefas, criarTarefa, deletarTarefa, atualizarStatus, buscarTarefas, deletarSubtarefa };
+    return { tarefas, criarTarefa, deletarTarefa, atualizarStatus, buscarTarefas, deletarSubtarefa, atualizarStatusSubtarefa };
 }
